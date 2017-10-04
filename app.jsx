@@ -46,7 +46,12 @@ class Model {
     this.todos = this.todos.filter(item => item !== todo);
     this.inform();
   }
-
+  sumaPuntos(){
+    let sum=0;
+    for(let player of this.todos)
+      sum+=player.score;
+    return sum;
+  }
 }
 
 const App = ({ title, model }) => {
@@ -84,7 +89,7 @@ const App = ({ title, model }) => {
             </tr>
             <tr>
               <td>TOTAL POINTS:</td>
-              <td>0</td>
+              <td>{model.sumaPuntos()}</td>
             </tr>
           </tbody>
         </table>
