@@ -1,45 +1,61 @@
 class Model {
   constructor() {
-    this.todos = [];
+    this.todos = [
+      {
+        text: "Jim Hoskins",
+        score: 31,
+        id: 1,
+      },
+      {
+        text: "Andree Hoskins",
+        score: 35,
+        id: 2,
+      },
+      {
+        text: "Alena Hoskins",
+        score: 42,
+        id: 3,
+      },
+    ];
     this.inputValue = null;
     this.render = undefined;
-    this.contador = 0; 
+    this.contador = 0;
   }
 
   subscribe(render) {
     this.render = render;
   }
   inform() {
-    console.log(this.todos.map(e => e.text)); 
-    this.render(); 
+    console.log(this.todos.map(e => e.text));
+    this.render();
   }
   addTodo(text) {
     //añade tareas
     this.todos.push({
-      id: Utils.uuid(), 
+      id: Utils.uuid(),
       text: text,
-      completed: false 
+      completed: false
     });
     this.inform();
   }
   updateTodo(index, todo) {
     this.todos[index] = todo;
-    this.inform(); 
+    this.inform();
   }
   removeTodo(todo) {
     this.todos = this.todos.filter(item => item !== todo);
     this.inform();
   }
-  
+
 }
 
 const App = ({ title, model }) => {
 
   const items = model.todos.map((todo, index) => {
-    return (   
+    return (
       <div className="player counter" key={todo.id}>
-            <button className="player eliminar" onClick={() => model.removeTodo(todo)}> x </button>
-        <div className="player-name counter-score" type="text" 
+        <button className="player eliminar" onClick={() => model.removeTodo(todo)}> x </button>
+        <div className="player-name counter-score" type="text"
           onChange={e =>
             model.updateTodo(index, {
               id: todo.id,
@@ -49,43 +65,43 @@ const App = ({ title, model }) => {
         >{todo.text}
         </div>
         <div className="player-score counter">
-        <button className="player decrement counter-action"> - </button>
-          <div className="counter-score">{model.contador}</div>
+          <button className="player decrement counter-action"> - </button>
+          <div className="counter-score">{todo.score}</div>
           <button className="player increment counter-action"> + </button>
         </div>
       </div>
     );
   });
-  
+
   return (
     <div className="scoreboard">
       <div className="header">
-      <table className="stats counter counter-player">
-        <tbody>
-          <tr>
-            <td>PLAYERS:</td>
-            <td>{(model.todos).length}</td>
-          </tr>
-          <tr>
-            <td>TOTAL POINTS:</td>
-            <td>0</td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="stopwatch">
-        <h2>STOPWATH</h2>
-        <h1 className="stopwatch-time">0</h1>
-        <button>START</button>
-        <button>RESET</button>
+        <table className="stats counter counter-player">
+          <tbody>
+            <tr>
+              <td>PLAYERS:</td>
+              <td>{(model.todos).length}</td>
+            </tr>
+            <tr>
+              <td>TOTAL POINTS:</td>
+              <td>0</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="stopwatch">
+          <h2>STOPWATH</h2>
+          <h1 className="stopwatch-time">0</h1>
+          <button>START</button>
+          <button>RESET</button>
+        </div>
       </div>
-    </div>
       <div> {items} </div>
 
       <div className="add-player-form">
         <form onSubmit={e => {
-            e.preventDefault();
-            model.addTodo(model.inputValue);
-          }}
+          e.preventDefault();
+          model.addTodo(model.inputValue);
+        }}
         >
           <input type="text" placeholder="ENTER A NAME" onChange={e => (model.inputValue = e.target.value)}
           />
@@ -99,6 +115,7 @@ const App = ({ title, model }) => {
 
 let model = new Model();
 let counter = 1;
+
 let render = () => {
   console.log("render times: ", counter++);
   ReactDOM.render(
