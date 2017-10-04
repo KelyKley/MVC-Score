@@ -47,10 +47,10 @@ class Model {
     this.inform();
   }
   sumaPuntos(){
-    let sum=0;
+    let suma = 0;
     for(let player of this.todos)
-      sum+=player.score;
-    return sum;
+      suma += player.score;
+    return suma;
   }
 }
 
